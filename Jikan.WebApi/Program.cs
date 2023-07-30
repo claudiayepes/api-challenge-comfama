@@ -15,7 +15,15 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IJikanService, JikanService>();
 builder.Services.AddScoped<IGetSeriesByDescriptionInteractor, GetSeriesByDescriptionInteractor>();
 builder.Services.AddHttpClient();
-
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy.AllowAnyHeader();
+        policy.AllowAnyMethod();
+        policy.AllowAnyOrigin();
+    });
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -30,5 +38,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseCors();
 
 app.Run();
